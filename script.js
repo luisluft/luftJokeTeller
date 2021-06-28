@@ -119,4 +119,19 @@ function test() {
   });
 }
 
-test();
+async function getJokes() {
+  let joke = "";
+  const apiUrl = "https://v2.jokeapi.dev/joke/Programming";
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    if (data.setup) joke = `${data.setup} ...${data.delivery}`;
+    else joke = data.joke;
+    console.log("🚀 ~ joke", joke);
+  } catch (error) {
+    console.log("🚀 ~ error", error);
+  }
+}
+
+getJokes();
