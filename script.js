@@ -106,10 +106,14 @@ const VoiceRSS = {
   },
 };
 
-function test() {
+function toggleButton() {
+  button.disabled = !button.disabled;
+}
+
+function textToSpeech(text) {
   VoiceRSS.speech({
     key: "e5d0ef304b8e4950ab5b4f24cac943ed",
-    src: "Hello, world!",
+    src: text,
     hl: "en-us",
     v: "Linda",
     r: 0,
@@ -120,6 +124,8 @@ function test() {
 }
 
 async function getJokes() {
+  toggleButton();
+
   let joke = "";
   const apiUrl = "https://v2.jokeapi.dev/joke/Programming";
 
@@ -129,9 +135,13 @@ async function getJokes() {
     if (data.setup) joke = `${data.setup} ...${data.delivery}`;
     else joke = data.joke;
     console.log("🚀 ~ joke", joke);
+    textToSpeech(joke);
   } catch (error) {
     console.log("🚀 ~ error", error);
   }
 }
 
-getJokes();
+// Event listeners
+button.addEventListener("click", getJokes);
+
+audioElement.addEventListener("ended", toggleButton);
