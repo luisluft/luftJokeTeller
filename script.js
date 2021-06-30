@@ -1,5 +1,14 @@
 const button = document.getElementById("button");
 const audioElement = document.getElementById("audio");
+const jokeText = document.getElementById("jokeText");
+
+function showJokeText(text) {
+  jokeText.innerText = text;
+}
+
+function hideJokeText() {
+  jokeText.innerText = "";
+}
 
 function toggleButton() {
   button.disabled = !button.disabled;
@@ -31,6 +40,7 @@ async function getJokes() {
     else joke = data.joke;
     console.log("🚀 ~ joke", joke);
     textToSpeech(joke);
+    showJokeText(joke);
   } catch (error) {
     console.log("🚀 ~ error", error);
   }
@@ -40,3 +50,4 @@ async function getJokes() {
 button.addEventListener("click", getJokes);
 
 audioElement.addEventListener("ended", toggleButton);
+audioElement.addEventListener("ended", hideJokeText);
